@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 # Import your forms from the forms.py
 from forms import CreatePostForm,RegisterForm,LoginForm,CommentForm
-
+import os
 '''
 Make sure the required packages are installed: 
 Open the Terminal in PyCharm (bottom left). 
@@ -25,7 +25,7 @@ This will install the packages from the requirements.txt for this project.
 '''
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('FLASK_KEY')
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -39,7 +39,7 @@ def load_user(user_id):
         return db.session.get(entity = User, ident = user_id)
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] =os.environ.get('DB_URI')
 db = SQLAlchemy()
 db.init_app(app)
 
